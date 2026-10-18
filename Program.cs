@@ -1,4 +1,6 @@
-﻿namespace MyHouseMedia
+﻿using NAudio.Wave;
+
+namespace MyHouseMedia
 {
 	class Program
 	{
@@ -21,7 +23,7 @@
 				using (FolderBrowserDialog fbd = new FolderBrowserDialog())
 				{
 					fbd.RootFolder = Environment.SpecialFolder.MyComputer;
-					fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "/";
+					fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
 					owner.Show();
 					
 					if (fbd.ShowDialog(owner) == DialogResult.OK)
@@ -33,6 +35,16 @@
 						{
 							Console.WriteLine(Path.GetFileName(file));
 						}
+						
+						Console.Write("Paste audio file name with extension: ");
+						string chosenFile = Console.ReadLine()!.Trim();
+						using AudioFileReader afr = new AudioFileReader(fbd.SelectedPath + $"\\{chosenFile}");
+						using WaveOut wo = new WaveOut();
+						wo.Init(afr);
+						wo.Play();
+						Console.WriteLine("Playing... Press any key to stop.");
+						Console.ReadKey();
+						wo.Stop();
 					}
 					else
 					{
