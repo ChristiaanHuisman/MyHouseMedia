@@ -28,7 +28,13 @@ namespace MyHouseMedia
 					
 					if (fbd.ShowDialog(owner) == DialogResult.OK)
 					{
-						Console.WriteLine($"Selected folder: {fbd.SelectedPath}");
+						Console.WriteLine($"Selected folder: {fbd.SelectedPath}\nFiles:");
+						string[] files = Directory.GetFiles(fbd.SelectedPath);
+						
+						foreach (string file in files)
+						{
+							Console.WriteLine(Path.GetFileName(file));
+						}
 					}
 					else
 					{
