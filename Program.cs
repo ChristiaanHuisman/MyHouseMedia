@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace MyHouseMedia
+﻿namespace MyHouseMedia
 {
 	class Program
 	{
