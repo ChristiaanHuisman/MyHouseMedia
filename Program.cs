@@ -39,13 +39,22 @@ namespace MyHouseMedia
 
                 Console.Write("Paste audio file name with extension: ");
                 string chosenFile = Console.ReadLine()!.Trim();
-                using AudioFileReader afr = new(Path.Combine(fbd.SelectedPath, chosenFile));
-                using WasapiPlayer wp = new WasapiPlayerBuilder().Build();
-                wp.Init(afr);
-                wp.Play();
-                Console.WriteLine("Playing... Press any key to stop.");
-                Console.ReadKey();
-                wp.Stop();
+
+                try
+                {
+                    using AudioFileReader afr = new(Path.Combine(fbd.SelectedPath, chosenFile));
+                    using WasapiPlayer wp = new WasapiPlayerBuilder().Build();
+                    wp.Init(afr);
+                    wp.Play();
+                    Console.WriteLine("Playing... Press any key to stop.");
+                    Console.ReadKey();
+                    wp.Stop();
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid event.");
+                    return;
+                }
             }
             else
             {
