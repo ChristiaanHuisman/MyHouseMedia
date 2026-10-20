@@ -38,12 +38,12 @@ namespace MyHouseMedia
                 Console.Write("Paste audio file name with extension: ");
                 string chosenFile = Console.ReadLine()!.Trim();
                 using AudioFileReader afr = new(fbd.SelectedPath + $"\\{chosenFile}");
-                using WaveOut wo = new();
-                wo.Init(afr);
-                wo.Play();
+                using WasapiPlayer wp = new WasapiPlayerBuilder().Build();
+                wp.Init(afr);
+                wp.Play();
                 Console.WriteLine("Playing... Press any key to stop.");
                 Console.ReadKey();
-                wo.Stop();
+                wp.Stop();
             }
             else
             {
