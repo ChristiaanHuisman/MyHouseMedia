@@ -22,10 +22,12 @@ namespace MyHouseMedia
 
             using FolderBrowserDialog fbd = new();
             fbd.RootFolder = Environment.SpecialFolder.MyComputer;
-            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
+            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             owner.Show();
+            DialogResult dr = fbd.ShowDialog(owner);
+            owner.Dispose();
 
-            if (fbd.ShowDialog(owner) == DialogResult.OK)
+            if (dr == DialogResult.OK)
             {
                 Console.WriteLine($"Selected folder: {fbd.SelectedPath}\nFiles:");
                 string[] files = Directory.GetFiles(fbd.SelectedPath);
@@ -37,7 +39,7 @@ namespace MyHouseMedia
 
                 Console.Write("Paste audio file name with extension: ");
                 string chosenFile = Console.ReadLine()!.Trim();
-                using AudioFileReader afr = new(fbd.SelectedPath + $"\\{chosenFile}");
+                using AudioFileReader afr = new(Path.Combine(fbd.SelectedPath, chosenFile));
                 using WasapiPlayer wp = new WasapiPlayerBuilder().Build();
                 wp.Init(afr);
                 wp.Play();
