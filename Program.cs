@@ -50,10 +50,23 @@ class Program
                 using AudioFileReader afr = new(Path.Combine(fbd.SelectedPath, chosenFile));
                 using WasapiPlayer wp = new WasapiPlayerBuilder().Build();
                 wp.Init(afr);
+                wp.Volume = 0.15f;
                 wp.Play();
                 Console.WriteLine("Playing... Press any key to stop.");
-                Console.ReadKey();
+
+                while (wp.PlaybackState == PlaybackState.Playing)
+                {
+                    Thread.Sleep(100);
+
+                    if (Console.KeyAvailable)
+                    {
+                        Console.ReadKey(intercept: true);
+                        break;
+                    }
+                }
+
                 wp.Stop();
+                Console.WriteLine("Audio stopped.");
             }
             catch
             {
